@@ -50,5 +50,13 @@ public class CharacterControllerComponent : IComponentData
     /// </summary>
     public float Drag { get; set; }
     
+    /// <summary>
+    /// True if the character is on the ground.
+    /// </summary>
     public bool IsGrounded { get; set; }
+
+    /// <summary>
+    /// The current jump velocity of the character.
+    /// </summary>
+    public float3 JumpVelocity { get; set; }
 }
