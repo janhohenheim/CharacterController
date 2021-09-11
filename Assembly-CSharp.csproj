@@ -54,6 +54,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\CharacterControllerComponent.cs" />
      <Compile Include="Assets\Scripts\CharacterControllerComponentView.cs" />
+     <Compile Include="Assets\Scripts\CharacterControllerSystem.cs" />
  <Reference Include="UnityEngine">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.18f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
@@ -746,6 +747,15 @@
  </Reference>
  <Reference Include="Unity.Rendering.Hybrid">
  <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Rendering.Hybrid.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Physics">
+ <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Physics.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Physics.Hybrid">
+ <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Physics.Hybrid.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Physics.Editor">
+ <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Physics.Editor.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

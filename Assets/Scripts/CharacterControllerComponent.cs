@@ -1,7 +1,7 @@
 using Unity.Entities;
 using Unity.Mathematics;
 
-public class CharacterControllerComponent : IComponentData
+public struct CharacterControllerComponent : IComponentData
 {
     /// <summary>
     ///  The current direction that the character is moving to.
