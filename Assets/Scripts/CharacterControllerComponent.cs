@@ -50,5 +50,5 @@ public class CharacterControllerComponent : IComponentData
     /// </summary>
     public float Drag { get; set; }
     
-    public bool isG
+    public bool IsGrounded { get; set; }
 }
