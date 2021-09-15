@@ -52,9 +52,9 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\CharacterControllerComponent.cs" />
      <Compile Include="Assets\Scripts\CharacterControllerComponentView.cs" />
      <Compile Include="Assets\Scripts\CharacterControllerSystem.cs" />
+     <Compile Include="Assets\Scripts\CharacterControllerComponent.cs" />
  <Reference Include="UnityEngine">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.18f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
@@ -278,13 +278,13 @@
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.18f1/Unity.app/Contents/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Collections.LowLevel.ILSupport">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/PackageCache/com.unity.collections@0.15.0-preview.21/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/PackageCache/com.unity.collections@0.15.0-preview.21/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Burst.Unsafe">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/PackageCache/com.unity.burst@1.4.1/Unity.Burst.Unsafe.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/PackageCache/com.unity.burst@1.4.1/Unity.Burst.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="Newtonsoft.Json">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0-preview/Runtime/Newtonsoft.Json.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0-preview/Runtime/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.18f1/Unity.app/Contents/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -632,130 +632,130 @@
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.18f1/Unity.app/Contents/NetStandard/compat/2.0.0/shims/netfx/mscorlib.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Transforms.Hybrid">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Transforms.Hybrid.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Transforms.Hybrid.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Properties">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Properties.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Properties.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Serialization">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Serialization.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Serialization.dll</HintPath>
  </Reference>
  <Reference Include="Unity.VSCode.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.CacheServer">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/UnityEditor.CacheServer.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/UnityEditor.CacheServer.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rendering.Hybrid.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Rendering.Hybrid.Editor.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Rendering.Hybrid.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Entities.Hybrid.EndToEnd.Tests">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Entities.Hybrid.EndToEnd.Tests.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Entities.Hybrid.EndToEnd.Tests.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Properties.UI.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Properties.UI.Editor.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Properties.UI.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Scenes">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Scenes.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Scenes.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Mathematics.Extensions">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Mathematics.Extensions.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Mathematics.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Mathematics.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Transforms">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Transforms.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Transforms.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Collections">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Collections.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Scenes.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Scenes.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Mathematics.Extensions.Hybrid">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Mathematics.Extensions.Hybrid.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Entities.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Entities.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Entities.BuildUtils">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Entities.BuildUtils.dll</HintPath>
- </Reference>
- <Reference Include="Unity.VisualStudio.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Timeline">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
- </Reference>
- <Reference Include="Unity.TextMeshPro">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Burst.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.PlasticSCM.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Entities">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Entities.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Entities.Hybrid">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Entities.Hybrid.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Jobs.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Jobs.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Mathematics">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Burst">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Jobs">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Jobs.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Deformations">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Deformations.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Timeline.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Properties.UI">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Properties.UI.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ScriptableBuildPipeline">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Serialization.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Serialization.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ScriptableBuildPipeline.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Rendering.Hybrid">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Rendering.Hybrid.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Collections.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Physics">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Physics.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Physics.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Scenes.Editor">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Scenes.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Mathematics.Extensions.Hybrid">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Mathematics.Extensions.Hybrid.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Entities.Editor">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Entities.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Entities.BuildUtils">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Entities.BuildUtils.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.VisualStudio.Editor">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Timeline">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.TextMeshPro">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Physics.Hybrid">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Physics.Hybrid.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Physics.Hybrid.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Burst.Editor">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.PlasticSCM.Editor">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Entities">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Entities.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Entities.Hybrid">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Entities.Hybrid.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Jobs.Editor">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Jobs.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Physics.Editor">
- <HintPath>/Users/jnf/Projects/Git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Physics.Editor.dll</HintPath>
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Physics.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Mathematics">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Burst">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Jobs">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Jobs.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Deformations">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Deformations.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Timeline.Editor">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Properties.UI">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Properties.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ScriptableBuildPipeline">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Serialization.Editor">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Serialization.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ScriptableBuildPipeline.Editor">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Rendering.Hybrid">
+ <HintPath>/Users/jnf/git/jnferner/CharacterController/Library/ScriptAssemblies/Unity.Rendering.Hybrid.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
