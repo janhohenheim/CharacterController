@@ -2,10 +2,9 @@ using System;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [Serializable]
-public class CharacterControllerComponentView: MonoBehaviour, IConvertGameObjectToEntity
+public sealed class CharacterControllerComponentView: MonoBehaviour, IConvertGameObjectToEntity
 {
     public float3 gravity = new float3(0.0f, -9.81f, 0.0f);
     public float maxSpeed = 7.5f;
