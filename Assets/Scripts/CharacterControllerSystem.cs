@@ -191,7 +191,8 @@ public class CharacterControllerSystem : JobComponentSystem
             }
         }
 
-        private unsafe void DetermineIfGrounded(Entity entity, ref float3 currPos, ref float3 epsilon, ref CharacterControllerComponent controller, ref PhysicsCollider collider, ref CollisionWorld collisionWorld)
+        // TODO: What about epsilon?
+        private static unsafe void DetermineIfGrounded(Entity entity, ref float3 currPos, ref float3 epsilon, ref CharacterControllerComponent controller, ref PhysicsCollider collider, ref CollisionWorld collisionWorld)
         {
             var aabb = collider.ColliderPtr->CalculateAabb();
             const float mod = 0.15f;
