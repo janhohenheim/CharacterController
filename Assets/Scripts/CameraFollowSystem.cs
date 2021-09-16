@@ -26,19 +26,23 @@ public sealed class CameraFollowSystem : ComponentSystem
             ref Rotation rotation,
             ref CameraFollowComponent camera) =>
         {
+            if (Camera.main is null)
+            {
+                Debug.LogError("No main camera found");
+                return;
+            }
+            
             ProcessCameraInput(ref camera);
-
             var transform = Camera.main.transform;
             var currPos = transform.position;
             var targetPos = new Vector3(position.Value.x, position.Value.y + 1.0f, position.Value.z);
 
-            targetPos += (transform.forward * -camera.Zoom);
+            targetPos += transform.forward * -camera.Zoom;
             var posLerp = Mathf.Clamp(Time.DeltaTime * 8.0f, 0.0f, 1.0f);
 
-            Camera.main.transform.rotation = new Quaternion();
-            Camera.main.transform.Rotate(new Vector3(camera.Pitch, camera.Yaw, 0.0f));
-            Camera.main.transform.position = Vector3.Lerp(currPos, targetPos, posLerp);
-
+            transform.rotation = new Quaternion();
+            transform.Rotate(new Vector3(camera.Pitch, camera.Yaw, 0.0f));
+            transform.position = Vector3.Lerp(currPos, targetPos, posLerp);
             camera.Forward = transform.forward;
             camera.Right = transform.right;
         });
@@ -49,10 +53,10 @@ public sealed class CameraFollowSystem : ComponentSystem
     /// </summary>
     /// <param name="camera"></param>
     /// <returns></returns>
-    private bool ProcessCameraInput(ref CameraFollowComponent camera)
+    private void ProcessCameraInput(ref CameraFollowComponent camera)
     {
-        return ProcessCameraZoom(ref camera) ||
-               ProcessCameraYawPitch(ref camera);
+        ProcessCameraZoom(ref camera);
+        ProcessCameraYawPitch(ref camera);
     }
 
     /// <summary>
@@ -60,17 +64,14 @@ public sealed class CameraFollowSystem : ComponentSystem
     /// </summary>
     /// <param name="camera"></param>
     /// <returns></returns>
-    private bool ProcessCameraZoom(ref CameraFollowComponent camera)
+    private void ProcessCameraZoom(ref CameraFollowComponent camera)
     {
         var scroll = _playerInputActions.Player.Zoom.ReadValue<float>();
 
         if (!MathUtils.IsZero(scroll))
         {
             camera.Zoom -= scroll;
-            return true;
         }
-
-        return false;
     }
 
     /// <summary>
@@ -78,17 +79,16 @@ public sealed class CameraFollowSystem : ComponentSystem
     /// </summary>
     /// <param name="camera"></param>
     /// <returns></returns>
-    private bool ProcessCameraYawPitch(ref CameraFollowComponent camera)
+    private void ProcessCameraYawPitch(ref CameraFollowComponent camera)
     {
-        if (!_playerInputActions.Player.Yaw.triggered)
-        {
-            return false;
-        }
-
         var mouse = _playerInputActions.Player.Look.ReadValue<Vector2>();
+        //Debug.Log($"x: {mouse.x}");
+        //Debug.Log($"y: {mouse.y}");
+        //Debug.Log($"pitch before: {camera.Pitch}");
+        //Debug.Log($"yaw before: {camera.Yaw}");
         camera.Yaw += mouse.x;
         camera.Pitch -= mouse.y;
-
-        return true;
+        Debug.Log($"pitch: {camera.Pitch}");
+        Debug.Log($"yaw: {camera.Yaw}");
     }
 }

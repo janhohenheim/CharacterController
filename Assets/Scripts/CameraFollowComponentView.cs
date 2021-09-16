@@ -73,10 +73,10 @@ public struct CameraFollowComponent : IComponentData
 public sealed class CameraFollowComponentView : MonoBehaviour, IConvertGameObjectToEntity
 {
     public float Yaw = 0.0f;
-    public float Pitch = 53.0f;
+    public float Pitch = 0.0f;
     public float Zoom = 8.0f;
 
-    public float MinPitch = 53.0f;
+    public float MinPitch = 0.0f;
     public float MaxPitch = 70.0f;
     public float MinZoom = 5.0f;
     public float MaxZoom = 10.0f;

@@ -52,14 +52,6 @@
                     "expectedControlType": "Double",
                     "processors": "",
                     "interactions": ""
-                },
-                {
-                    "name": "Yaw",
-                    "type": "Button",
-                    "id": "8e8d719e-235c-409f-8bfb-dd8acce44e45",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -315,17 +307,6 @@
                     "action": "Zoom",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "317e990b-dea9-4d43-9e4f-68f7f2bb47ac",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Yaw",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },

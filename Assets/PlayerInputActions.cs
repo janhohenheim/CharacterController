@@ -65,14 +65,6 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Double"",
                     ""processors"": """",
                     ""interactions"": """"
-                },
-                {
-                    ""name"": ""Yaw"",
-                    ""type"": ""Button"",
-                    ""id"": ""8e8d719e-235c-409f-8bfb-dd8acce44e45"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -328,17 +320,6 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""317e990b-dea9-4d43-9e4f-68f7f2bb47ac"",
-                    ""path"": ""<Mouse>/middleButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Yaw"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -920,7 +901,6 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
-        m_Player_Yaw = m_Player.FindAction("Yaw", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -988,7 +968,6 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_Zoom;
-    private readonly InputAction m_Player_Yaw;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -999,7 +978,6 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
-        public InputAction @Yaw => m_Wrapper.m_Player_Yaw;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1027,9 +1005,6 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Zoom.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
                 @Zoom.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
                 @Zoom.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
-                @Yaw.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYaw;
-                @Yaw.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYaw;
-                @Yaw.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYaw;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1052,9 +1027,6 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Zoom.started += instance.OnZoom;
                 @Zoom.performed += instance.OnZoom;
                 @Zoom.canceled += instance.OnZoom;
-                @Yaw.started += instance.OnYaw;
-                @Yaw.performed += instance.OnYaw;
-                @Yaw.canceled += instance.OnYaw;
             }
         }
     }
@@ -1217,7 +1189,6 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
-        void OnYaw(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
