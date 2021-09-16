@@ -9,7 +9,7 @@ public sealed class CharacterControllerComponentView: MonoBehaviour, IConvertGam
     public float3 gravity = new float3(0.0f, -9.81f, 0.0f);
     public float maxSpeed = 7.5f;
     public float speed = 5.0f;
-    public float jumpStrength = 0.15f;
+    public float jumpStrength = 0.25f;
     public float maxStep = 0.35f;
     public float drag = 0.2f;
     
