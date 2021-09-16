@@ -82,13 +82,7 @@ public sealed class CameraFollowSystem : ComponentSystem
     private void ProcessCameraYawPitch(ref CameraFollowComponent camera)
     {
         var mouse = _playerInputActions.Player.Look.ReadValue<Vector2>();
-        //Debug.Log($"x: {mouse.x}");
-        //Debug.Log($"y: {mouse.y}");
-        //Debug.Log($"pitch before: {camera.Pitch}");
-        //Debug.Log($"yaw before: {camera.Yaw}");
         camera.Yaw += mouse.x;
         camera.Pitch -= mouse.y;
-        Debug.Log($"pitch: {camera.Pitch}");
-        Debug.Log($"yaw: {camera.Yaw}");
     }
 }
