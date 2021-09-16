@@ -70,7 +70,7 @@ public class CharacterControllerSystem : JobComponentSystem
         return controllerJobHandle;
     }
 
-    // [BurstCompile]
+    // TODO: [BurstCompile]
     private struct CharacterControllerJob : IJobChunk
     {
         public float DeltaTime;
@@ -120,6 +120,12 @@ public class CharacterControllerSystem : JobComponentSystem
             {
                 jumpVelocity += controller.JumpStrength * -math.normalize(controller.Gravity);
             }
+
+            var horizontalVelocity = controller.CurrentDirection * controller.CurrentMagnitude * controller.Speed *
+                                     DeltaTime;
+            HandleHorizontalMovement(ref horizontalVelocity, ref entity, ref currPos, ref currRot, ref controller,
+                ref collider, ref collisionWorld);
+            currPos += horizontalVelocity;
             
             
             var gravityVelocity = controller.IsGrounded ? 0.0f : controller.Gravity * DeltaTime;
@@ -132,6 +138,57 @@ public class CharacterControllerSystem : JobComponentSystem
             DetermineIfGrounded(entity, ref currPos, ref epsilon, ref controller, ref collider, ref collisionWorld);
             
             position.Value = currPos - epsilon;
+        }
+
+        private void HandleHorizontalMovement(ref float3 horizontalVelocity, ref Entity entity, ref float3 currPos, ref quaternion currRot, ref CharacterControllerComponent controller, ref PhysicsCollider collider, ref CollisionWorld collisionWorld)
+        {
+            if (MathUtils.IsZero(horizontalVelocity))
+            {
+                return;
+            }
+
+            var targetPos = currPos + horizontalVelocity;
+
+            var horizontalCollisions = PhysicsUtils.RaycastAll(currPos, targetPos, ref collisionWorld, entity,
+                PhysicsCollisionFilters.DynamicWithPhysical, Allocator.Temp);
+
+            if (horizontalCollisions.Length != 0)
+            {
+                var step = new float3(0.0f, controller.MaxStep, 0.0f);
+                // TODO: Swap from and to
+                PhysicsUtils.ColliderCast(out var nearestStepHit, collider, targetPos + step, targetPos,
+                    ref collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, null, ColliderData,
+                    Allocator.Temp);
+                if (!MathUtils.IsZero(nearestStepHit.Fraction))
+                {
+                    // step up
+                    // TODO: + aabb height / 2
+                    targetPos += step * (1.0f - nearestStepHit.Fraction);
+                    horizontalVelocity = targetPos - currPos;
+                }
+                else
+                {
+                    // slide
+                    var transform = new RigidTransform
+                    {
+                        pos = currPos + horizontalVelocity,
+                        rot = currRot
+                    };
+                    // TODO: Can this be a nearest hit?
+                    var horizontalDistances = PhysicsUtils.ColliderDistanceAll(collider, 1.0f, transform,
+                        ref collisionWorld, entity, Allocator.Temp);
+                    PhysicsUtils.TrimByFilter(ref horizontalCollisions, ColliderData, PhysicsCollisionFilters.DynamicWithPhysical);
+
+                    // TODO: Maybe use index for burst
+                    foreach (var horizontalDistanceHit in horizontalDistances)
+                    {
+                        if (horizontalDistanceHit.Distance < 0.0f)
+                        {
+                            horizontalVelocity += horizontalDistanceHit.SurfaceNormal * -horizontalDistanceHit.Distance;
+                        }
+                    }
+                }
+            }
         }
 
         private unsafe void DetermineIfGrounded(Entity entity, ref float3 currPos, ref float3 epsilon, ref CharacterControllerComponent controller, ref PhysicsCollider collider, ref CollisionWorld collisionWorld)
