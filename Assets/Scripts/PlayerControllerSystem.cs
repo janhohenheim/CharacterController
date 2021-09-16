@@ -4,6 +4,14 @@ using Utils;
 
 public class PlayerControllerSystem : ComponentSystem
 {
+    private PlayerInputActions _playerInputActions;
+    protected override void OnCreate()
+    {
+        base.OnCreate();
+        _playerInputActions = new PlayerInputActions();
+        _playerInputActions.Enable();
+    }
+
     protected override void OnUpdate()
     {
         Entities.WithAll<PlayerControllerComponent>().ForEach((
@@ -15,27 +23,23 @@ public class PlayerControllerSystem : ComponentSystem
         });
     }
 
-    private static void ProcessMovement(ref CharacterControllerComponent controller, ref CameraFollowComponent camera)
+    private void ProcessMovement(ref CharacterControllerComponent controller, ref CameraFollowComponent camera)
     {
-        var movementX = (Input.GetAxis("Move Right") > 0.0f ? 1.0f : 0.0f) +
-                        (Input.GetAxis("Move Left") > 0.0f ? -1.0f : 0.0f);
-        
-        var movementZ = (Input.GetAxis("Move Forward") > 0.0f ? 1.0f : 0.0f) +
-                        (Input.GetAxis("Move Backward") > 0.0f ? -1.0f : 0.0f);
+        var movement= _playerInputActions.Player.Move.ReadValue<Vector2>();
 
         var forward = new Vector3(camera.Forward.x, 0.0f, camera.Forward.z).normalized;
         var right = new Vector3(camera.Right.x, 0.0f, camera.Right.z).normalized;
 
-        if (!MathUtils.IsZero(movementX) || !MathUtils.IsZero(movementZ))
+        if (!MathUtils.IsZero(movement.x) || !MathUtils.IsZero(movement.y))
         {
-            controller.CurrentDirection = (forward * movementZ + right * movementX).normalized;
-            controller.CurrentMagnitude = Input.GetKey(KeyCode.LeftShift) ? 1.5f : 1.0f;
+            controller.CurrentDirection = (forward * movement.y + right * movement.x).normalized;
+            controller.CurrentMagnitude =  _playerInputActions.Player.Run.triggered ? 1.5f : 1.0f;
         }
         else
         {
             controller.CurrentMagnitude = 0.0f;
         }
 
-        controller.Jump = Input.GetAxis("Jump") > 0.0f;
+        controller.Jump = _playerInputActions.Player.Jump.triggered;
     }
 }
