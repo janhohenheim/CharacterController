@@ -7,7 +7,7 @@ using Unity.Physics.Systems;
 using Unity.Transforms;
 using Utils;
 
-[UpdateAfter(typeof(ExportPhysicsWorld)), UpdateBefore(typeof(EndFramePhysicsSystem))]
+[UpdateInGroup(typeof(FixedStepSimulationSystemGroup)), UpdateAfter(typeof(ExportPhysicsWorld)), UpdateBefore(typeof(EndFramePhysicsSystem))]
 public class CharacterControllerSystem : JobComponentSystem
 {
     private const float Epsilon = 0.001f;
