@@ -113,12 +113,67 @@ public class CharacterControllerSystem : JobComponentSystem
             var currRot = rotation.Value;
 
             var verticalVelocity = new float3();
-            var jumpVelocity = new float3();
+
+            var jumpVelocity = controller.JumpVelocity;
+
+            if (controller.IsGrounded && controller.Jump && MathUtils.IsZero(math.lengthsq(controller.JumpVelocity)))
+            {
+                jumpVelocity += controller.JumpStrength * -math.normalize(controller.Gravity);
+            }
+            
+            
             var gravityVelocity = controller.IsGrounded ? 0.0f : controller.Gravity * DeltaTime;
             
             HandleVerticalMovement(ref verticalVelocity, ref jumpVelocity, ref gravityVelocity, ref entity, ref currPos, ref currRot, ref controller, ref collider, ref collisionWorld);
+            ApplyDrag(ref jumpVelocity, ref controller);
+            
             currPos += verticalVelocity;
+
+            DetermineIfGrounded(entity, ref currPos, ref epsilon, ref controller, ref collider, ref collisionWorld);
+            
             position.Value = currPos - epsilon;
+        }
+
+        private unsafe void DetermineIfGrounded(Entity entity, ref float3 currPos, ref float3 epsilon, ref CharacterControllerComponent controller, ref PhysicsCollider collider, ref CollisionWorld collisionWorld)
+        {
+            var aabb = collider.ColliderPtr->CalculateAabb();
+            const float mod = 0.15f;
+
+            var samplePos = currPos + new float3(0.0f, aabb.Min.y, 0.0f);
+            var gravity = math.normalize(controller.Gravity);
+            var offset = gravity * 0.1f;
+
+            var posLeft = samplePos - new float3(aabb.Extents.x * mod, 0.0f, 0.0f);
+            var posRight = samplePos + new float3(aabb.Extents.x * mod, 0.0f, 0.0f);
+            var posForward = samplePos + new float3(0.0f, 0.0f, aabb.Extents.x);
+            var posBackward = samplePos - new float3(0.0f, 0.0f, aabb.Extents.x);
+            
+            controller.IsGrounded = PhysicsUtils.Raycast(out var _, samplePos, samplePos + offset, ref collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, Allocator.Temp)
+                ||  PhysicsUtils.Raycast(out var _, posLeft, posLeft + offset, ref collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, Allocator.Temp)
+                ||  PhysicsUtils.Raycast(out var _, posRight, posRight + offset, ref collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, Allocator.Temp)
+                ||  PhysicsUtils.Raycast(out var _, posForward, posForward + offset, ref collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, Allocator.Temp)
+                ||  PhysicsUtils.Raycast(out var _, posBackward, posBackward + offset, ref collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, Allocator.Temp);
+                
+        }
+
+        private void ApplyDrag(ref float3 jumpVelocity, ref CharacterControllerComponent controller)
+        {
+            var currSpeed = math.length(jumpVelocity);
+            var dragDelta = controller.Drag * DeltaTime;
+
+            currSpeed = math.max(currSpeed - dragDelta, 0.0f);
+            
+            if (MathUtils.IsZero(currSpeed))
+            {
+                jumpVelocity = new float3();
+            }
+            else
+            {
+                jumpVelocity = math.normalize(jumpVelocity) * currSpeed;
+                jumpVelocity = MathUtils.ZeroOut(jumpVelocity, 0.001f);
+            }
+
+            controller.JumpVelocity = jumpVelocity;
         }
 
         private void HandleVerticalMovement(ref float3 totalVelocity, ref float3 jumpVelocity, ref float3 gravityVelocity, ref Entity entity, ref float3 currPos, ref quaternion currRot, ref CharacterControllerComponent controller, ref PhysicsCollider collider, ref CollisionWorld collisionWorld)
