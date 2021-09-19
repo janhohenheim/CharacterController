@@ -1,4 +1,5 @@
 using Components;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
@@ -73,7 +74,7 @@ namespace Systems
             return controllerJobHandle;
         }
 
-        // TODO: [BurstCompile]
+        [BurstCompile]
         private struct CharacterControllerJob : IJobChunk
         {
             public float DeltaTime;
