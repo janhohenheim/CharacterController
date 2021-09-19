@@ -24,8 +24,8 @@ namespace Components
         /// </summary>
         public float Pitch
         {
-            get { return _pitch; }
-            set { _pitch = math.clamp(value, MinPitch, MaxPitch); }
+            get => _pitch;
+            set => _pitch = math.clamp(value, MinPitch, MaxPitch);
         }
 
         /// <summary>
@@ -43,8 +43,8 @@ namespace Components
         /// </summary>
         public float Zoom
         {
-            get { return _zoom; }
-            set { _zoom = math.clamp(value, MinZoom, MaxZoom); }
+            get => _zoom;
+            set => _zoom = math.clamp(value, MinZoom, MaxZoom);
         }
 
         /// <summary>
