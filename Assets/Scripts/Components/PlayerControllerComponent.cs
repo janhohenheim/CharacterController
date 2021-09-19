@@ -1,6 +1,9 @@
 using Unity.Entities;
 
-public struct PlayerControllerComponent : IComponentData
+namespace Components
 {
+    public struct PlayerControllerComponent : IComponentData
+    {
         
+    }
 }
