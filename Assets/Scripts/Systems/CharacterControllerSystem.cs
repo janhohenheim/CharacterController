@@ -7,6 +7,7 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Physics.Systems;
 using Unity.Transforms;
+using UnityEngine;
 using Utils;
 
 namespace Systems
@@ -156,40 +157,42 @@ namespace Systems
                 var horizontalCollisions = PhysicsUtils.RaycastAll(currPos, targetPos, ref collisionWorld, entity,
                     PhysicsCollisionFilters.DynamicWithPhysical, Allocator.Temp);
 
-                if (horizontalCollisions.Length != 0)
+                if (horizontalCollisions.Length == 0)
                 {
-                    var step = new float3(0.0f, controller.MaxStep, 0.0f);
-                    // TODO: Swap from and to
-                    PhysicsUtils.ColliderCast(out var nearestStepHit, collider, targetPos + step, targetPos,
-                        ref collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, null, ColliderData,
-                        Allocator.Temp);
-                    if (!MathUtils.IsZero(nearestStepHit.Fraction))
+                    return;
+                }
+                
+                var step = new float3(0.0f, controller.MaxStep, 0.0f);
+                // TODO: Swap from and to
+                PhysicsUtils.ColliderCast(out var nearestStepHit, collider, targetPos + step, targetPos,
+                    ref collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, null, ColliderData,
+                    Allocator.Temp);
+                if (!MathUtils.IsZero(nearestStepHit.Fraction))
+                {
+                    // step up
+                    // TODO: + aabb height / 2
+                    targetPos += step * (1.0f - nearestStepHit.Fraction);
+                    horizontalVelocity = targetPos - currPos;
+                }
+                else
+                {
+                    // slide
+                    var transform = new RigidTransform
                     {
-                        // step up
-                        // TODO: + aabb height / 2
-                        targetPos += step * (1.0f - nearestStepHit.Fraction);
-                        horizontalVelocity = targetPos - currPos;
-                    }
-                    else
-                    {
-                        // slide
-                        var transform = new RigidTransform
-                        {
-                            pos = currPos + horizontalVelocity,
-                            rot = currRot
-                        };
-                        // TODO: Can this be a nearest hit?
-                        var horizontalDistances = PhysicsUtils.ColliderDistanceAll(collider, 1.0f, transform,
-                            ref collisionWorld, entity, Allocator.Temp);
-                        PhysicsUtils.TrimByFilter(ref horizontalCollisions, ColliderData, PhysicsCollisionFilters.DynamicWithPhysical);
+                        pos = currPos + horizontalVelocity,
+                        rot = currRot
+                    };
+                    // TODO: Can this be a nearest hit?
+                    var horizontalDistances = PhysicsUtils.ColliderDistanceAll(collider, 1.0f, transform,
+                        ref collisionWorld, entity, Allocator.Temp);
+                    PhysicsUtils.TrimByFilter(ref horizontalCollisions, ColliderData, PhysicsCollisionFilters.DynamicWithPhysical);
 
-                        // TODO: Maybe use index for burst
-                        foreach (var horizontalDistanceHit in horizontalDistances)
+                    // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
+                    foreach (var horizontalDistanceHit in horizontalDistances)
+                    {
+                        if (horizontalDistanceHit.Distance < 0.0f)
                         {
-                            if (horizontalDistanceHit.Distance < 0.0f)
-                            {
-                                horizontalVelocity += horizontalDistanceHit.SurfaceNormal * -horizontalDistanceHit.Distance;
-                            }
+                            horizontalVelocity += horizontalDistanceHit.SurfaceNormal * -horizontalDistanceHit.Distance;
                         }
                     }
                 }
