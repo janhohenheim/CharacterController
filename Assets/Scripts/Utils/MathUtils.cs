@@ -39,7 +39,7 @@ namespace Utils
         /// <returns></returns>
         public static bool IsZero(float3 v, float epsilon = 0.000001f)
         {
-            return (IsZero(v.x, epsilon) && IsZero(v.y, epsilon) && IsZero(v.z, epsilon));
+            return IsZero(v.x, epsilon) && IsZero(v.y, epsilon) && IsZero(v.z, epsilon);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Utils
         /// <param name="vec"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public static float3 ZeroOut(float3 vec, float epsilon = 0.001f)
+        public static float3 SetToZero(float3 vec, float epsilon = 0.001f)
         {
             vec.x = math.abs(vec.x) < epsilon ? 0.0f : vec.x;
             vec.y = math.abs(vec.y) < epsilon ? 0.0f : vec.y;

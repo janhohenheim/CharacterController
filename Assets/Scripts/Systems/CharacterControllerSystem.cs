@@ -231,7 +231,7 @@ namespace Systems
                 else
                 {
                     jumpVelocity = math.normalize(jumpVelocity) * currSpeed;
-                    jumpVelocity = MathUtils.ZeroOut(jumpVelocity, 0.001f);
+                    jumpVelocity = MathUtils.SetToZero(jumpVelocity, 0.001f);
                 }
 
                 controller.JumpVelocity = jumpVelocity;
@@ -273,7 +273,7 @@ namespace Systems
                     }
                 }
 
-                totalVelocity = MathUtils.ZeroOut(totalVelocity, 0.01f);
+                totalVelocity = MathUtils.SetToZero(totalVelocity, 0.01f);
             }
         }
     }
