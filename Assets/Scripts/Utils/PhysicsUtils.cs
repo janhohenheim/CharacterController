@@ -22,7 +22,7 @@ namespace Utils
         /// <param name="transform"></param>
         /// <param name="collisionWorld"></param>
         /// <returns></returns>
-        public unsafe static NativeList<DistanceHit> ColliderDistanceAll(PhysicsCollider collider, float maxDistance, RigidTransform transform, ref CollisionWorld collisionWorld, Entity ignore, Allocator allocator = Allocator.TempJob)
+        public static unsafe NativeList<DistanceHit> ColliderDistanceAll(PhysicsCollider collider, float maxDistance, RigidTransform transform, in CollisionWorld collisionWorld, Entity ignore, Allocator allocator = Allocator.TempJob)
         {
             var input = new ColliderDistanceInput()
             {
@@ -56,14 +56,14 @@ namespace Utils
             PhysicsCollider collider,
             float maxDistance,
             RigidTransform transform,
-            ref CollisionWorld collisionWorld,
+            in CollisionWorld collisionWorld,
             Entity ignore,
             CollisionFilter? filter = null,
             EntityManager? manager = null,
             ComponentDataFromEntity<PhysicsCollider>? colliderData = null,
             Allocator allocator = Allocator.TempJob)
         {
-            var allDistances = ColliderDistanceAll(collider, maxDistance, transform, ref collisionWorld, ignore, allocator);
+            var allDistances = ColliderDistanceAll(collider, maxDistance, transform, in collisionWorld, ignore, allocator);
 
             if (filter.HasValue)
             {
@@ -94,7 +94,7 @@ namespace Utils
         /// <param name="collisionWorld"></param>
         /// <param name="ignore">Will ignore this entity if it was hit. Useful to prevent returning hits from the caster.</param>
         /// <returns></returns>
-        public static NativeList<ColliderCastHit> ColliderCastAll(PhysicsCollider collider, float3 from, float3 to, ref CollisionWorld collisionWorld, Entity ignore, Allocator allocator = Allocator.TempJob)
+        public static NativeList<ColliderCastHit> ColliderCastAll(PhysicsCollider collider, float3 from, float3 to, in CollisionWorld collisionWorld, Entity ignore, Allocator allocator = Allocator.TempJob)
         {
             unsafe
             {
@@ -136,7 +136,7 @@ namespace Utils
             PhysicsCollider collider,
             float3 from,
             float3 to,
-            ref CollisionWorld collisionWorld,
+            in CollisionWorld collisionWorld,
             Entity ignore,
             CollisionFilter? filter = null,
             EntityManager? manager = null,
@@ -144,7 +144,7 @@ namespace Utils
             Allocator allocator = Allocator.TempJob)
         {
             nearestHit = new ColliderCastHit();
-            var allHits = ColliderCastAll(collider, from, to, ref collisionWorld, ignore, allocator);
+            var allHits = ColliderCastAll(collider, from, to, in collisionWorld, ignore, allocator);
 
             if (filter.HasValue)
             {
@@ -174,7 +174,7 @@ namespace Utils
         /// <param name="ignore">Will ignore this entity if it was hit. Useful to prevent returning hits from the caster.</param>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public static NativeList<RaycastHit> RaycastAll(float3 from, float3 to, ref CollisionWorld collisionWorld, Entity ignore, CollisionFilter? filter = null, Allocator allocator = Allocator.TempJob)
+        public static NativeList<RaycastHit> RaycastAll(float3 from, float3 to, in CollisionWorld collisionWorld, Entity ignore, CollisionFilter? filter = null, Allocator allocator = Allocator.TempJob)
         {
             var input = new RaycastInput()
             {
@@ -205,9 +205,9 @@ namespace Utils
         /// <param name="ignore">Will ignore this entity if it was hit. Useful to prevent returning hits from the caster.</param>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public static bool Raycast(out RaycastHit nearestHit, float3 from, float3 to, ref CollisionWorld collisionWorld, Entity ignore, CollisionFilter? filter = null, Allocator allocator = Allocator.TempJob)
+        public static bool Raycast(out RaycastHit nearestHit, float3 from, float3 to, in CollisionWorld collisionWorld, Entity ignore, CollisionFilter? filter = null, Allocator allocator = Allocator.TempJob)
         {
-            var allHits = RaycastAll(from, to, ref collisionWorld, ignore, filter, allocator);
+            var allHits = RaycastAll(from, to, in collisionWorld, ignore, filter, allocator);
 
             var gotHit = GetSmallestFractional(ref allHits, out nearestHit);
             allHits.Dispose();

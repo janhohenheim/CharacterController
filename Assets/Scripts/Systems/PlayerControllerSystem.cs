@@ -17,13 +17,15 @@ namespace Systems
 
         protected override void OnUpdate()
         {
-            Entities.WithAll<PlayerControllerComponent>().ForEach((
-                Entity entity,
-                ref CameraFollowComponent camera,
-                ref CharacterControllerComponent controller) =>
-            {
-                ProcessMovement(ref controller, ref camera);
-            });
+            Entities
+                .WithAll<PlayerControllerComponent>()
+                .ForEach((
+                    Entity entity,
+                    ref CameraFollowComponent camera,
+                    ref CharacterControllerComponent controller) =>
+                {
+                    ProcessMovement(ref controller, ref camera);
+                });
         }
 
         private void ProcessMovement(ref CharacterControllerComponent controller, ref CameraFollowComponent camera)
