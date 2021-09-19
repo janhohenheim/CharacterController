@@ -76,7 +76,7 @@ namespace Systems
         }
 
         [BurstCompile]
-        private struct CharacterControllerJob : IJobChunk
+        private struct CharacterControllerJob : IJobEntityBatch 
         {
             public float DeltaTime;
 
@@ -87,9 +87,8 @@ namespace Systems
             public ComponentTypeHandle<CharacterControllerComponent> CharacterControllerHandles;
             public ComponentTypeHandle<Translation> TranslationHandles;
             public ComponentTypeHandle<Rotation> RotationHandles;
-
-
-            public void Execute(ArchetypeChunk chunk, int chunkIndex, int firstEntityIndex)
+            
+            public void Execute(ArchetypeChunk chunk, int batchIndex)
             {
                 var collisionWorld = PhysicsWorld.CollisionWorld;
                 var chunkEntityData = chunk.GetNativeArray(EntityHandles);
