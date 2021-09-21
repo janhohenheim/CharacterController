@@ -257,7 +257,7 @@ MonoBehaviour:
     z: 0
   maxSpeed: 7.5
   speed: 5
-  jumpStrength: 0.25
+  jumpStrength: 5
   maxStep: 0.35
   drag: 0.2
 --- !u!114 &565608707
@@ -284,13 +284,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4471fae3e16449d9613121e6d64e9fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Yaw: 90
-  Pitch: 0
-  Zoom: 8
-  MinPitch: 0
-  MaxPitch: 70
-  MinZoom: 5
-  MaxZoom: 10
+  yaw: 0
+  pitch: 0
+  zoom: 8
+  minPitch: 0
+  maxPitch: 70
+  minZoom: 5
+  maxZoom: 10
 --- !u!114 &565608709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -825,13 +825,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 819346271}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0, y: -0.51845664, z: -0, w: 0.85510397}
+  m_LocalPosition: {x: 13.25, y: 3.28, z: -9.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -62.458, z: 0}
 --- !u!1 &1357116528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,7 +1127,7 @@ Transform:
   m_GameObject: {fileID: 1741440969}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.72, y: 1.06, z: -6.1357117}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 6.6361, y: 1.5855, z: 1.9964881}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5

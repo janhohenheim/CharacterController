@@ -47,10 +47,6 @@ namespace Components
         /// </summary>
         public float MaxStep { get; set; }
     
-        /// <summary>
-        /// Drag value applied to reduce the <see cref="JumpVelocity"/>
-        /// </summary>
-        public float Drag { get; set; }
     
         /// <summary>
         /// True if the character is on the ground.

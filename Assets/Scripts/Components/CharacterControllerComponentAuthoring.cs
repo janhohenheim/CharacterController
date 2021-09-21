@@ -13,7 +13,6 @@ namespace Components
         public float speed = 5.0f;
         public float jumpStrength = 0.25f;
         public float maxStep = 0.35f;
-        public float drag = 0.2f;
     
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
@@ -29,7 +28,6 @@ namespace Components
                 Speed = speed,
                 JumpStrength = jumpStrength,
                 MaxStep = maxStep,
-                Drag = drag,
             });
         }
     }

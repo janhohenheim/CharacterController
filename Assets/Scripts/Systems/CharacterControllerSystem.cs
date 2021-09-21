@@ -7,6 +7,7 @@ using Unity.Physics;
 using Unity.Physics.Systems;
 using Unity.Transforms;
 using Utils;
+// ReSharper disable ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
 
 namespace Systems
 {
@@ -46,92 +47,136 @@ namespace Systems
             var epsilon = new float3(0.0f, Epsilon, 0.0f) * -math.normalize(controller.Gravity);
             var currPos = position.Value + epsilon;
             var currRot = rotation.Value;
+            
+        
+            var gravityVelocity = controller.Gravity * deltaTime;
+            var verticalVelocity = controller.JumpVelocity + gravityVelocity;
+            var horizontalVelocity = controller.CurrentDirection * controller.CurrentMagnitude * controller.Speed * deltaTime;
 
-            var verticalVelocity = new float3();
-
-            var jumpVelocity = controller.JumpVelocity;
-
-            if (controller.IsGrounded && controller.Jump && MathUtils.IsZero(math.lengthsq(controller.JumpVelocity)))
+            if (controller.IsGrounded)
             {
-                jumpVelocity += controller.JumpStrength * -math.normalize(controller.Gravity);
+                if (controller.Jump)
+                {
+                    verticalVelocity = controller.JumpStrength * -math.normalize(controller.Gravity);
+                }
+                else
+                {
+                    var gravityDir = math.normalize(gravityVelocity);
+                    var verticalDir = math.normalize(verticalVelocity);
+
+                    if (MathUtils.FloatEquals(math.dot(gravityDir, verticalDir), 1.0f))
+                    {
+                        verticalVelocity = new float3();
+                    }
+                }
             }
-
+            
             controller.Jump = false;
-
-            var horizontalVelocity = controller.CurrentDirection * controller.CurrentMagnitude * controller.Speed *
-                                     deltaTime;
+        
             HandleHorizontalMovement(ref horizontalVelocity, in entity, ref currPos, ref currRot, ref controller,
                 in collider, in collisionWorld);
             currPos += horizontalVelocity;
-        
-        
-            var gravityVelocity = controller.IsGrounded ? 0.0f : controller.Gravity * deltaTime;
-        
-            HandleVerticalMovement(ref verticalVelocity, ref jumpVelocity, ref gravityVelocity, in entity, ref currPos, ref currRot, ref controller, in collider, in collisionWorld);
-            ApplyDrag(deltaTime, ref jumpVelocity, ref controller);
+            
+            HandleVerticalMovement(ref verticalVelocity, deltaTime, in entity, ref currPos, ref currRot, ref controller, in collider, in collisionWorld);
         
             currPos += verticalVelocity;
 
-            DetermineIfGrounded(entity, ref currPos, ref epsilon, ref controller, in collider, in collisionWorld);
+            
+            CorrectForCollision(entity, ref currPos, ref currRot, ref controller, in collisionWorld);
+            DetermineIfGrounded(entity, ref currPos, ref controller, in collider, in collisionWorld);
         
             position.Value = currPos - epsilon;
         }
 
         private static void HandleHorizontalMovement(ref float3 horizontalVelocity, in Entity entity, ref float3 currPos, ref quaternion currRot, ref CharacterControllerComponent controller, in PhysicsCollider collider, in CollisionWorld collisionWorld)
         {
-            if (MathUtils.IsZero(horizontalVelocity))
-            {
-                return;
-            }
-
-            var targetPos = currPos + horizontalVelocity;
-
-            var horizontalCollisions = PhysicsUtils.RaycastAll(currPos, targetPos, in collisionWorld, entity,
-                PhysicsCollisionFilters.DynamicWithPhysical, Allocator.Temp);
-
-            if (horizontalCollisions.Length == 0)
-            {
-                return;
-            }
-            
-            var step = new float3(0.0f, controller.MaxStep, 0.0f);
-            // TODO: Swap from and to
-            PhysicsUtils.ColliderCast(out var nearestStepHit, collider, targetPos + step, targetPos,
-                in collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, null, null,
-                Allocator.Temp);
-            if (!MathUtils.IsZero(nearestStepHit.Fraction))
-            {
-                // step up
-                // TODO: + aabb height / 2
-                targetPos += step * (1.0f - nearestStepHit.Fraction);
-                horizontalVelocity = targetPos - currPos;
-            }
-            else
-            {
-                // slide
-                var transform = new RigidTransform
+                if (MathUtils.IsZero(horizontalVelocity))
                 {
-                    pos = currPos + horizontalVelocity,
-                    rot = currRot
-                };
-                // TODO: Can this be a nearest hit?
-                var horizontalDistances = PhysicsUtils.ColliderDistanceAll(collider, 1.0f, transform,
-                    in collisionWorld, entity, Allocator.Temp);
-                // PhysicsUtils.TrimByFilter(ref horizontalCollisions, null, PhysicsCollisionFilters.DynamicWithPhysical);
+                    return;
+                }
 
-                // ReSharper disable once ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator
-                foreach (var horizontalDistanceHit in horizontalDistances)
+                var targetPos = currPos + horizontalVelocity;
+
+                var horizontalCollisions = PhysicsUtils.ColliderCastAll(collider, currPos, targetPos, in collisionWorld, entity, Allocator.Temp);
+                //PhysicsUtils.TrimByFilter(ref horizontalCollisions, ColliderData, PhysicsCollisionFilters.DynamicWithPhysical);
+
+                if (horizontalCollisions.Length > 0)
                 {
-                    if (horizontalDistanceHit.Distance < 0.0f)
+                    // We either have to step or slide as something is in our way.
+                    var step = new float3(0.0f, controller.MaxStep, 0.0f);
+                    PhysicsUtils.ColliderCast(out var nearestStepHit, collider, targetPos + step, targetPos, in collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, null, null, Allocator.Temp);
+
+                    if (!MathUtils.IsZero(nearestStepHit.Fraction))
                     {
-                        horizontalVelocity += horizontalDistanceHit.SurfaceNormal * -horizontalDistanceHit.Distance;
+                        // We can step up.
+                        targetPos += step * (1.0f - nearestStepHit.Fraction);
+                        horizontalVelocity = targetPos - currPos;
+                    }
+                    else
+                    {
+                        // We can not step up, so slide.
+                        var horizontalDistances = PhysicsUtils.ColliderDistanceAll(collider, 1.0f, new RigidTransform { pos = currPos + horizontalVelocity, rot = currRot }, in collisionWorld, entity, Allocator.Temp);
+                        //PhysicsUtils.TrimByFilter(ref horizontalDistances, ColliderData, PhysicsCollisionFilters.DynamicWithPhysical);
+
+                        foreach (var hit in horizontalDistances)
+                        {
+                            if (hit.Distance >= 0.0f)
+                            {
+                                continue;
+                            }
+
+                            horizontalVelocity += hit.SurfaceNormal * -hit.Distance;
+                        }
+
+                        horizontalDistances.Dispose();
                     }
                 }
+
+                horizontalCollisions.Dispose();
+        }
+        
+        /// <summary>
+        /// Performs a collision correction at the specified position.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="currPos"></param>
+        /// <param name="currRot"></param>
+        /// <param name="controller"></param>
+        /// <param name="collisionWorld"></param>
+        private static void CorrectForCollision(Entity entity, ref float3 currPos, ref quaternion currRot, ref CharacterControllerComponent controller, in CollisionWorld collisionWorld)
+        {
+            var transform = new RigidTransform
+            {
+                pos = currPos,
+                rot = currRot
+            };
+
+            // Use a subset sphere within our collider to test against.
+            // We do not use the collider itself as some intersection (such as on ramps) is ok.
+
+            var offset = -math.normalize(controller.Gravity) * 0.1f;
+            var sampleCollider = new PhysicsCollider
+            {
+                Value = SphereCollider.Create(new SphereGeometry
+                {
+                    Center = currPos + offset,
+                    Radius = 0.1f
+                })
+            };
+
+            if (!PhysicsUtils.ColliderDistance(out var smallestHit, sampleCollider, 0.1f, transform,
+                in collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, null, null,
+                Allocator.Temp))
+            {
+                return;
+            }
+            if (smallestHit.Distance < 0.0f)
+            {
+                currPos += math.abs(smallestHit.Distance) * smallestHit.SurfaceNormal;
             }
         }
 
-        // TODO: What about epsilon?
-        private static unsafe void DetermineIfGrounded(Entity entity, ref float3 currPos, ref float3 epsilon, ref CharacterControllerComponent controller, in PhysicsCollider collider, in CollisionWorld collisionWorld)
+        private static unsafe void DetermineIfGrounded(Entity entity, ref float3 currPos, ref CharacterControllerComponent controller, in PhysicsCollider collider, in CollisionWorld collisionWorld)
         {
             var aabb = collider.ColliderPtr->CalculateAabb();
             const float mod = 0.15f;
@@ -152,64 +197,46 @@ namespace Systems
                                     ||  PhysicsUtils.Raycast(out var _, posBackward, posBackward + offset, in collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, Allocator.Temp);
             
         }
-
-        private static void ApplyDrag(float deltaTime, ref float3 jumpVelocity, ref CharacterControllerComponent controller)
-        {
-            var currSpeed = math.length(jumpVelocity);
-            var dragDelta = controller.Drag * deltaTime;
-
-            currSpeed = math.max(currSpeed - dragDelta, 0.0f);
         
-            if (MathUtils.IsZero(currSpeed))
-            {
-                jumpVelocity = new float3();
-            }
-            else
-            {
-                jumpVelocity = math.normalize(jumpVelocity) * currSpeed;
-                jumpVelocity = MathUtils.SetToZero(jumpVelocity, 0.001f);
-            }
-
-            controller.JumpVelocity = jumpVelocity;
-        }
-
-        private static void HandleVerticalMovement(ref float3 totalVelocity, ref float3 jumpVelocity, ref float3 gravityVelocity, in Entity entity, ref float3 currPos, ref quaternion currRot, ref CharacterControllerComponent controller, in PhysicsCollider collider, in CollisionWorld collisionWorld)
+        
+        private static void HandleVerticalMovement(ref float3 verticalVelocity, float deltaTime, in Entity entity, ref float3 currPos, ref quaternion currRot, ref CharacterControllerComponent controller, in PhysicsCollider collider, in CollisionWorld collisionWorld)
         {
-            totalVelocity = jumpVelocity + gravityVelocity;
+            controller.JumpVelocity = verticalVelocity;
 
-            var verticalCollisions =
-                PhysicsUtils.ColliderCastAll(collider, currPos, currPos + totalVelocity, in collisionWorld, entity, Allocator.Temp);
-            // PhysicsUtils.TrimByFilter(ref verticalCollisions, colliderData, PhysicsCollisionFilters.DynamicWithPhysical);
+            if (MathUtils.IsZero(verticalVelocity))
+            {
+                return;
+            }
 
-            if (verticalCollisions.Length != 0)
+            verticalVelocity *= deltaTime;
+
+            var verticalCollisions = PhysicsUtils.ColliderCastAll(collider, currPos, currPos + verticalVelocity, in collisionWorld, entity, Allocator.Temp);
+            //PhysicsUtils.TrimByFilter(ref verticalCollisions, ColliderData, PhysicsCollisionFilters.DynamicWithPhysical);
+
+            if (verticalCollisions.Length > 0)
             {
                 var transform = new RigidTransform
                 {
-                    pos = currPos + totalVelocity,
-                    rot = currRot,
+                    pos = currPos + verticalVelocity,
+                    rot = currRot
                 };
 
-                if (PhysicsUtils.ColliderDistance(out var verticalPenetration, collider, 1.0f, transform,
-                    in collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, null, null,
-                    Allocator.Temp))
+                if (PhysicsUtils.ColliderDistance(out var verticalPenetration, collider, 1.0f, transform, in collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, null, null, Allocator.Temp))
                 {
-                    if (verticalPenetration.Distance < 0.0f)
+                    if (verticalPenetration.Distance < -0.01f)
                     {
-                        totalVelocity += verticalPenetration.SurfaceNormal * -verticalPenetration.Distance;
+                        verticalVelocity += verticalPenetration.SurfaceNormal * verticalPenetration.Distance;
 
-                        if (PhysicsUtils.ColliderCast(out var adjustedHit, collider, currPos, currPos + totalVelocity,
-                            in collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, null, null,
-                            Allocator.Temp))
+                        if (PhysicsUtils.ColliderCast(out var adjustedHit, collider, currPos, currPos + verticalVelocity, in collisionWorld, entity, PhysicsCollisionFilters.DynamicWithPhysical, null, null, Allocator.Temp))
                         {
-                            totalVelocity *= adjustedHit.Fraction;
+                            verticalVelocity *= adjustedHit.Fraction;
                         }
-
-                        controller.JumpVelocity = new float3();
                     }
                 }
             }
 
-            totalVelocity = MathUtils.SetToZero(totalVelocity, 0.01f);
+            verticalVelocity = MathUtils.SetToZero(verticalVelocity, 0.0001f);
+            verticalCollisions.Dispose();
             
         }
     }
