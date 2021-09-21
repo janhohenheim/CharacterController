@@ -56,6 +56,8 @@ namespace Systems
                 jumpVelocity += controller.JumpStrength * -math.normalize(controller.Gravity);
             }
 
+            controller.Jump = false;
+
             var horizontalVelocity = controller.CurrentDirection * controller.CurrentMagnitude * controller.Speed *
                                      deltaTime;
             HandleHorizontalMovement(ref horizontalVelocity, in entity, ref currPos, ref currRot, ref controller,

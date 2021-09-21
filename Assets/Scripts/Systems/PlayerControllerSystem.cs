@@ -45,7 +45,7 @@ namespace Systems
                 controller.CurrentMagnitude = 0.0f;
             }
 
-            controller.Jump = _playerInputActions.Player.Jump.triggered;
+            controller.Jump |= _playerInputActions.Player.Jump.triggered;
         }
     }
 }
